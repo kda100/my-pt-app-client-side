@@ -33,7 +33,6 @@ clientsAuthApp.post("/client_registration", ValidationHelper.userCreationValidat
         const userRecord: UserRecord = await auth.createUser({email: email, password: password});
         userUID = userRecord.uid;
 
-
         const firstName: string = userData[fieldNames.firstNameField];
         const lastName: string = userData[fieldNames.lastNameField];
         const phoneNumber: string = userData[fieldNames.phoneNumberField] ?? "";
@@ -65,17 +64,17 @@ clientsAuthApp.post("/client_registration", ValidationHelper.userCreationValidat
 
         await batch.commit();
         functions.logger.log("New client %s was created", userUID);
-        return res.status(200).json({message: "Registration successful"});
+        return res.status(201).json({message: "Registration successful"});
     } catch (error) {
         if (userUID !== undefined) {
             auth.deleteUser(userUID);
         }
         if (error instanceof Error) {
             functions.logger.log(error.message);
-            return res.status(400).json({message: error.message}).send();
+            return res.status(500).json({message: error.message}).send();
         }
         functions.logger.log(strings.errorMessage);
-        return res.status(400).json({message: strings.errorMessage}).send();
+        return res.status(500).json({message: strings.errorMessage}).send();
     }
 });
 
@@ -104,10 +103,10 @@ clientsAuthApp.post("/check_client_login", ValidationHelper.userLoginValidators,
     } catch (error) {
         if (error instanceof Error) {
             functions.logger.log(error.message);
-            return res.status(400).json({message: error.message}).send();
+            return res.status(500).json({message: error.message}).send();
         }
         functions.logger.log(strings.errorMessage);
-        return res.status(400).json({message: strings.errorMessage}).send();
+        return res.status(500).json({message: strings.errorMessage}).send();
     }
 });
 
@@ -141,7 +140,7 @@ clientsAuthApp.post("/create_client_from_user", ValidationHelper.userLoginValida
                     };
                     batch.set(db.collection(collectionNames.clients).doc(user.uid), client);
                     await batch.commit();
-                    return res.status(200).json({message: "Creating client successful"});
+                    return res.status(201).json({message: "Creating client successful"});
                 }
             }
         }
@@ -149,10 +148,10 @@ clientsAuthApp.post("/create_client_from_user", ValidationHelper.userLoginValida
     } catch (error) {
         if (error instanceof Error) {
             functions.logger.log(error.message);
-            return res.status(400).json({message: error.message}).send();
+            return res.status(500).json({message: error.message}).send();
         }
         functions.logger.log(strings.errorMessage);
-        return res.status(400).json({message: strings.errorMessage}).send();
+        return res.status(500).json({message: strings.errorMessage}).send();
     }
 }
 );

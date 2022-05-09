@@ -74,17 +74,17 @@ coachesAuthApp.post("/coach_registration", ValidationHelper.userCreationValidato
         batch.set(db.collection(collectionNames.clientManagement).doc(userUID), clientManagementCoach);
         await batch.commit();
         functions.logger.log("New Coach %s was created", userRecord.uid);
-        return res.status(200).json({message: "Registration successful"});
+        return res.status(201).json({message: "Registration successful"});
     } catch (error) {
         if (typeof userUID !== "undefined") {
             auth.deleteUser(userUID);
         }
         if (error instanceof Error) {
             functions.logger.log(error.message);
-            return res.status(400).json({message: error.message}).send();
+            return res.status(500).json({message: error.message}).send();
         }
         functions.logger.log(strings.errorMessage);
-        return res.status(400).json({message: strings.errorMessage}).send();
+        return res.status(500).json({message: strings.errorMessage}).send();
     }
 });
 
@@ -112,10 +112,10 @@ coachesAuthApp.post("/check_coach_login", ValidationHelper.userLoginValidators, 
     } catch (error) {
         if (error instanceof Error) {
             functions.logger.log(error.message);
-            return res.status(400).json({message: error.message}).send();
+            return res.status(500).json({message: error.message}).send();
         }
         functions.logger.log(strings.errorMessage);
-        return res.status(400).json({message: strings.errorMessage}).send();
+        return res.status(500).json({message: strings.errorMessage}).send();
     }
 });
 
@@ -160,7 +160,7 @@ coachesAuthApp.post("/create_coach_from_user", ValidationHelper.userLoginValidat
                     };
                     batch.set(db.collection(collectionNames.clientManagement).doc(user.uid), clientManagementCoach);
                     await batch.commit();
-                    return res.status(200).json({message: "Creating coach successful"});
+                    return res.status(201).json({message: "Creating coach successful"});
                 }
             }
         }
@@ -168,10 +168,10 @@ coachesAuthApp.post("/create_coach_from_user", ValidationHelper.userLoginValidat
     } catch (error) {
         if (error instanceof Error) {
             functions.logger.log(error.message);
-            return res.status(400).json({message: error.message}).send();
+            return res.status(500).json({message: error.message}).send();
         }
         functions.logger.log(strings.errorMessage);
-        return res.status(400).json({message: "An error has occurred"}).send();
+        return res.status(500).json({message: "An error has occurred"}).send();
     }
 }
 );

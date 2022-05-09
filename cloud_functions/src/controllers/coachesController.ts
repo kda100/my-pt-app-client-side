@@ -65,7 +65,7 @@ coachesApp.post(`/update_coach_details/:${strings.coachId}`, ValidationHelper.us
                     }
                 }
                 await batch.commit();
-                return res.status(200).json({message: "Coach details successfully updated"});
+                return res.status(201).json({message: "Coach details successfully updated"});
             } else {
                 throw Error("User is not authorized to write this doc");
             }
@@ -75,10 +75,10 @@ coachesApp.post(`/update_coach_details/:${strings.coachId}`, ValidationHelper.us
     } catch (error) {
         if (error instanceof Error) {
             console.log(error.message);
-            return res.status(400).json({message: error.message}).send();
+            return res.status(500).json({message: error.message}).send();
         }
         console.log(strings.errorMessage);
-        return res.status(400).json({message: strings.errorMessage}).send();
+        return res.status(500).json({message: strings.errorMessage}).send();
     }
 });
 
