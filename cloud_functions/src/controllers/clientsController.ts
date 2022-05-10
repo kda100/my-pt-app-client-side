@@ -16,7 +16,7 @@ import {DecodedIdToken} from "firebase-admin/lib/auth/token-verifier";
 const clientsApp = express();
 clientsApp.use(cors({origin: true}));
 
-clientsApp.put(`/update_client_details/:${strings.clientId}`, ValidationHelper.userUpdateValidators, async (req: express.Request, res: express.Response) => {
+clientsApp.patch(`/update_client_details/:${strings.clientId}`, ValidationHelper.userUpdateValidators, async (req: express.Request, res: express.Response) => {
     const errors = validationResult(req).formatWith(ValidationHelper.authErrorFormatter);
     if (!errors.isEmpty()) {
         console.log(errors.array());
