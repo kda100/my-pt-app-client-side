@@ -15,7 +15,7 @@ import {DecodedIdToken} from "firebase-admin/lib/auth/token-verifier";
 const coachesApp = express();
 coachesApp.use(cors({origin: true}));
 
-coachesApp.post(`/update_coach_details/:${strings.coachId}`, ValidationHelper.userUpdateValidators, async (req: express.Request, res: express.Response) => {
+coachesApp.put(`/update_coach_details/:${strings.coachId}`, ValidationHelper.userUpdateValidators, async (req: express.Request, res: express.Response) => {
     const errors = validationResult(req).formatWith(ValidationHelper.authErrorFormatter);
     if (!errors.isEmpty()) {
         console.log(errors.array());
