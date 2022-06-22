@@ -2,10 +2,8 @@ import * as admin from "firebase-admin";
 
 admin.initializeApp();
 
-exports.clientsAuthController = require("./controllers/clientsAuthController");
-exports.coachesAuthController = require("./controllers/coachesAuthController");
-exports.clientsController = require("./controllers/clientsController");
-exports.coachesController = require("./controllers/coachesController");
+exports.clientsRoutes = require("./routes/clientRoutes");
+exports.coachesRoutes = require("./routes/coachRoutes");
 exports.clientsTriggers = require("./triggers/clientsTriggers");
 exports.coachesTriggers = require("./triggers/coachesTriggers");
 exports.usersTriggers = require("./triggers/usersTriggers");
